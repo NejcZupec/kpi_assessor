@@ -8,58 +8,83 @@ from polls.models import Vote
 
 class TestPoll(TestCase):
 
-    def test_normal_poll_creation(self):
-        template = Template(title='template')
-        poll = Poll(
+    @classmethod
+    def setUpClass(cls):
+        super(TestPoll, cls).setUpClass()
+        cls.template = Template(title='template')
+        cls.poll = Poll(
             title='poll',
-            template=template,
+            template=cls.template,
         )
-        self.assertEqual(poll.title, 'poll')
-        self.assertEqual(poll.template, template)
+
+    def test_normal_poll_creation(self):
+        self.assertEqual(self.poll.title, 'poll')
+        self.assertEqual(self.poll.template, self.template)
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.poll), self.poll.title)
 
 
 class TestTemplate(TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super(TestTemplate, cls).setUpClass()
+        cls.template = Template(title='template')
+
     def test_normal_template_creation(self):
-        template = Template(
-            title='template',
-        )
-        self.assertEqual(template.title, 'template')
+        self.assertEqual(self.template.title, 'template')
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.template), self.template.title)
 
 
 class TestField(TestCase):
 
-    def test_normal_field_creation(self):
-        template = Template(title='template')
-        field = Field(
+    @classmethod
+    def setUpClass(cls):
+        super(TestField, cls).setUpClass()
+        cls.template = Template(title='template')
+        cls.field = Field(
             title='field',
-            template=template,
+            template=cls.template,
         )
-        self.assertEqual(field.title, 'field')
-        self.assertEqual(field.template, template)
+
+    def test_normal_field_creation(self):
+        self.assertEqual(self.field.title, 'field')
+        self.assertEqual(self.field.template, self.template)
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.field), self.field.title)
 
 
 class TestVote(TestCase):
 
-    def test_normal_vote_creation(self):
+    @classmethod
+    def setUpClass(cls):
+        super(TestVote, cls).setUpClass()
         template = Template(title='template')
 
-        field = Field(
+        cls.field = Field(
             title='field',
             template=template,
         )
 
-        poll = Poll(
+        cls.poll = Poll(
             title='poll',
             template=template,
         )
 
-        vote = Vote(
-            poll=poll,
-            field=field,
+        cls.vote = Vote(
+            poll=cls.poll,
+            field=cls.field,
             value=2,
         )
 
-        self.assertEqual(vote.poll, poll)
-        self.assertEqual(vote.field, field)
-        self.assertEqual(vote.value, 2)
+    def test_normal_vote_creation(self):
+        self.assertEqual(self.vote.poll, self.poll)
+        self.assertEqual(self.vote.field, self.field)
+        self.assertEqual(self.vote.value, 2)
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.vote), str(self.vote.value))
