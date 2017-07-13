@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from polls.models import Poll
+
+
+class PollsView(ListView):
+    models = Poll
+    queryset = Poll.objects.all()
+    template_name = 'polls.html'
