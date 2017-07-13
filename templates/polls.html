@@ -1,11 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Polls</h1>
+  <div class="header">
+    <h3>Polls</h3>
+  </div>
 
-  <ul>
-    {% for poll in object_list %}
-      <li>{{ poll.title }}</li>
-    {% endfor %}
-  </ul>
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <th>Title</th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+          {% for poll in object_list %}
+            <tr>
+              <td>{{ poll.title }}</td>
+              <td>
+                <a class="btn btn-default btn-xs" href="">Vote</a>
+                <a class="btn btn-default btn-xs" href="">Results</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock %}
