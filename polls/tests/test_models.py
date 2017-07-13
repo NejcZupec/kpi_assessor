@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from polls.factories import FieldFactory
+from polls.factories import TemplateFactory
 from polls.models import Field
 from polls.models import Poll
 from polls.models import Template
@@ -30,13 +32,23 @@ class TestTemplate(TestCase):
     @classmethod
     def setUpClass(cls):
         super(TestTemplate, cls).setUpClass()
-        cls.template = Template(title='template')
+        cls.template = TemplateFactory(title='template')
+        field1 = FieldFactory(title='field1', template=cls.template)
+        field2 = FieldFactory(title='field2', template=cls.template)
+        cls.fields = [field1, field2]
 
     def test_normal_template_creation(self):
         self.assertEqual(self.template.title, 'template')
 
     def test_string_representation(self):
         self.assertEqual(str(self.template), self.template.title)
+
+    def test_fields(self):
+        self.assertEqual(set(self.template.fields), set(self.fields))
+
+    def test_returned_field_names(self):
+        field_titles = [field.title for field in self.template.fields]
+        self.assertEqual(set(field_titles), set(['field1', 'field2']))
 
 
 class TestField(TestCase):

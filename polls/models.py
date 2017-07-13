@@ -12,6 +12,10 @@ class Poll(models.Model):
 class Template(models.Model):
     title = models.CharField(max_length=255)
 
+    @property
+    def fields(self):
+        return self.field_set.all()
+
     def __str__(self):
         return self.title
 
