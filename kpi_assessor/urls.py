@@ -15,9 +15,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from polls.views import PollVoteView
 from polls.views import PollsView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', PollsView.as_view(), name='list_polls'),
+    url(r'^poll/(?P<poll_id>[0-9]+)/vote', PollVoteView.as_view(),
+        name='poll_vote'),
 ]

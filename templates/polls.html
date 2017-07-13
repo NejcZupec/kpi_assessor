@@ -19,7 +19,10 @@
             <tr>
               <td>{{ poll.title }}</td>
               <td>
-                <a class="btn btn-default btn-xs" href="">Vote</a>
+                <a class="btn btn-default btn-xs"
+                   href="{% url 'poll_vote' poll.id %}">
+                  Vote
+                </a>
                 <a class="btn btn-default btn-xs" href="">Results</a>
               </td>
             </tr>
