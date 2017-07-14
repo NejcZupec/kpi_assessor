@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from polls.factories import FieldFactory
 from polls.factories import PollFactory
 
 
@@ -30,6 +31,8 @@ class TestPollVoteView(TestCase):
     def setUpClass(cls):
         super(TestPollVoteView, cls).setUpClass()
         cls.poll = PollFactory()
+        FieldFactory(title='question1', template=cls.poll.template)
+        FieldFactory(title='question2', template=cls.poll.template)
         cls.poll_vote_url = reverse(
             'poll_vote',
             kwargs={'poll_id': cls.poll.id},
@@ -44,6 +47,12 @@ class TestPollVoteView(TestCase):
         response = self.client.get(self.poll_vote_url)
         self.assertEqual(response.status_code, 200)
 
-    def test_check_if_poll_is_in_the_context(self):
+    def test_poll_context(self):
         response = self.client.get(self.poll_vote_url)
         self.assertEqual(response.context_data['poll'], self.poll)
+
+    def test_form_context(self):
+        response = self.client.get(self.poll_vote_url)
+        form_questions = response.context_data['form'].fields
+        expected_questions = {'question1', 'question2'}
+        self.assertEqual(set(form_questions), expected_questions)

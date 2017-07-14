@@ -1,0 +1,16 @@
+form.poll ul {
+    margin-bottom: 30px;
+}
+
+form.poll ul li {
+    display: inline;
+    padding: 10px;
+}
+
+form.poll ul li input {
+    margin: 7px;
+}
+
+form input[type=submit] {
+    margin-bottom: 30px;
+}
